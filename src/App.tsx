@@ -1,4 +1,6 @@
 import { useState, useEffect, ChangeEvent } from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 import "./App.css";
 
 function App() {
@@ -99,15 +101,19 @@ function App() {
                 <label htmlFor="random">Random</label>
               </div>
               <div>
-                Interval Time:{" "}
-                <input
+                {"Interval Time: "}
+                <TextField
                   id="timeInterval"
                   type="number"
                   defaultValue={intervalTime}
-                  className="interval"
+                  variant="outlined"
                   onChange={handleIntervalChange}
-                />{" "}
-                seconds
+                  sx={{ width: "100px" }}
+                  inputProps={{
+                    style: { fontSize: "1.5rem", background: "white" },
+                  }}
+                />
+                {" seconds"}
               </div>
               <p>
                 Total Time:{" "}
@@ -115,7 +121,9 @@ function App() {
                 seconds
               </p>
             </div>
-            <button onClick={handleStart}>Start!</button>
+            <Button onClick={handleStart} variant="contained" color="primary">
+              Start!
+            </Button>
           </div>
         )}
         <div id="currentitem">{currentItem}</div>
