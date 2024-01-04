@@ -1,6 +1,5 @@
 import { useState, useEffect, ChangeEvent } from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+import { Button, TextField, Box, Radio } from "@mui/material";
 import "./App.css";
 
 function App() {
@@ -11,12 +10,14 @@ function App() {
   const [isRandom, setRandom] = useState<Boolean>(false);
   const [selectedRadio, setSelectedRadio] = useState<string>("loop");
 
+  const totalTime = itemList.split("\n").filter(Boolean).length * intervalTime;
+
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setItemList(e.target.value);
   };
 
   const handleIntervalChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIntervalTime(parseInt(e.target.value));
+    setIntervalTime(parseFloat(e.target.value));
   };
 
   const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +27,7 @@ function App() {
 
   const handleStart = () => {
     const itemsArray = itemList.split("\n").filter(Boolean); // Splitting by lines and removing empty strings
-    setLooping(true);
+    if (itemsArray.length > 0) setLooping(true);
 
     if (isRandom) {
       const getRandomValue = () => Math.random() - 0.5;
@@ -71,55 +72,77 @@ function App() {
         {!looping && (
           <div>
             <h1>SwitchList</h1>
-            <p>
+            <h5>
               Enter a list of anything, set the intervals, then start the cycle.
-            </p>
+            </h5>
             <div>
-              <textarea
+              <TextField
                 id="itemlist"
-                placeholder="Enter list items separated by line"
+                label="Enter list items separated by line"
+                multiline
                 rows={10}
-                onChange={handleChange}
+                variant="outlined"
+                fullWidth
                 value={itemList}
-              ></textarea>
-              <div>
-                <input
-                  type="radio"
-                  id="loop"
-                  name="cycling"
-                  checked={selectedRadio === "loop"}
-                  onChange={handleRadioChange}
-                />
-                <label htmlFor="loop">Loop</label>
-                <input
-                  type="radio"
-                  id="random"
-                  name="cycling"
-                  checked={selectedRadio === "random"}
-                  onChange={handleRadioChange}
-                />
-                <label htmlFor="random">Random</label>
-              </div>
-              <div>
-                {"Interval Time: "}
-                <TextField
-                  id="timeInterval"
-                  type="number"
-                  defaultValue={intervalTime}
-                  variant="outlined"
-                  onChange={handleIntervalChange}
-                  sx={{ width: "100px" }}
-                  inputProps={{
-                    style: { fontSize: "1.5rem", background: "white" },
+                onChange={handleChange}
+                style={{
+                  color: "white",
+                }}
+                InputLabelProps={{
+                  style: { color: "white" },
+                }}
+                InputProps={{ style: { color: "white", border: "green" } }}
+              />
+              <Box sx={{ border: "lightblue solid 2px" }}>
+                <Box style={{ margin: "10px" }}>
+                  <Radio
+                    id="loop"
+                    name="cycling"
+                    checked={selectedRadio === "loop"}
+                    onChange={handleRadioChange}
+                  />
+                  <label htmlFor="loop">Loop</label>
+                  <Radio
+                    id="random"
+                    name="cycling"
+                    checked={selectedRadio === "random"}
+                    onChange={handleRadioChange}
+                  />
+                  <label htmlFor="random">Random</label>
+                </Box>
+                <Box
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
-                />
-                {" seconds"}
-              </div>
-              <p>
-                Total Time:{" "}
-                {itemList.split("\n").filter(Boolean).length * intervalTime}{" "}
-                seconds
-              </p>
+                >
+                  {"Interval Time: "}
+                  <TextField
+                    id="timeInterval"
+                    type="number"
+                    defaultValue={intervalTime}
+                    variant="outlined"
+                    onChange={handleIntervalChange}
+                    sx={{ width: "80px", margin: "10px" }}
+                    inputProps={{
+                      style: {
+                        fontSize: "1.5rem",
+                        background: "white",
+                        padding: 5,
+                        border: "#469  solid 5px",
+                      },
+                      step: 0.1,
+                    }}
+                  />
+                  {` second${intervalTime !== 1 ? "s" : ""}`}
+                </Box>
+                <p>
+                  {`Total Time: ${totalTime} second${
+                    totalTime === 1 ? "" : "s"
+                  }`}
+                </p>
+              </Box>
             </div>
             <Button onClick={handleStart} variant="contained" color="primary">
               Start!
