@@ -2,7 +2,7 @@
 
 SwitchList is a web application that allows you to create lists, set intervals, and loop through the items in the list. It's a handy tool for scenarios like decision-making, random selection, or just for fun!
 
-Try out this project here: https://elderlyc.github.io/switchlist
+Try out this project here: https://elderlyc.github.io/Switchlist
 
 ## Features
 
