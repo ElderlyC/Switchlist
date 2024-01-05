@@ -57,9 +57,24 @@ function App() {
     <div className="App">
       <header className="App-header">
         {!looping && (
-          <div>
-            <Typography variant="h1">SwitchList</Typography>
-            <Typography variant="h5" sx={{ marginBottom: "20px" }}>
+          <Box
+            sx={{
+              maxWidth: "100%",
+            }}
+          >
+            <Typography
+              variant="h1"
+              sx={{ "@media (max-width:600px)": { fontSize: "3rem" } }}
+            >
+              SwitchList
+            </Typography>
+            <Typography
+              variant="h5"
+              sx={{
+                marginBottom: "20px",
+                "@media (max-width:600px)": { fontSize: "1rem" },
+              }}
+            >
               Enter a list of anything, set the intervals, then start the loop.
             </Typography>
             <Box
@@ -67,6 +82,7 @@ function App() {
                 backgroundColor: "transparent",
                 color: "black",
                 fontSize: "1.5rem",
+                "@media (max-width:600px)": { fontSize: "1rem" },
               }}
             >
               <TextField
@@ -82,6 +98,10 @@ function App() {
                   sx: {
                     lineHeight: "30px",
                     textarea: { fontSize: "1.5rem" },
+                    "@media (max-width:600px)": {
+                      lineHeight: "20px",
+                      textarea: { fontSize: "1rem" },
+                    },
                   },
                 }}
               />
@@ -120,7 +140,7 @@ function App() {
                   <TextField
                     id="timeInterval"
                     type="number"
-                    defaultValue={intervalTime}
+                    defaultValue={intervalTime || 1}
                     variant="outlined"
                     onChange={handleIntervalChange}
                     sx={{ width: "80px", margin: "10px" }}
@@ -135,7 +155,7 @@ function App() {
                   {` second${intervalTime !== 1 ? "s" : ""}`}
                 </Box>
                 <Box sx={{ margin: "20px 0px 30px" }}>
-                  {`Total Time: ${totalTime} second${
+                  {`Total Time: ${totalTime || 0} second${
                     totalTime === 1 ? "" : "s"
                   }`}
                 </Box>
@@ -149,7 +169,7 @@ function App() {
             >
               Start!
             </Button>
-          </div>
+          </Box>
         )}
         <Box sx={{ fontSize: "3rem" }}>{currentItem}</Box>
       </header>
