@@ -1,5 +1,5 @@
-import { useState, useEffect, ChangeEvent } from "react";
-import { Button, TextField, Box, Radio } from "@mui/material";
+import { useState, ChangeEvent } from "react";
+import { Button, TextField, Box, Radio, Typography } from "@mui/material";
 import "./App.css";
 
 function App() {
@@ -10,7 +10,9 @@ function App() {
   const [isRandom, setRandom] = useState<Boolean>(false);
   const [selectedRadio, setSelectedRadio] = useState<string>("loop");
 
-  const totalTime = itemList.split("\n").filter(Boolean).length * intervalTime;
+  const totalTime = parseFloat(
+    (itemList.split("\n").filter(Boolean).length * intervalTime).toFixed(2)
+  );
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setItemList(e.target.value);
@@ -27,7 +29,6 @@ function App() {
 
   const handleStart = () => {
     const itemsArray = itemList.split("\n").filter(Boolean); // Splitting by lines and removing empty strings
-    if (itemsArray.length > 0) setLooping(true);
 
     if (isRandom) {
       const getRandomValue = () => Math.random() - 0.5;
@@ -35,47 +36,39 @@ function App() {
     }
 
     if (itemsArray.length > 0) {
-      setCurrentItem(itemsArray[0]); // Set the initial currentItem
+      setLooping(true);
+      setCurrentItem(itemsArray[0]);
       let currentIndex = 1;
 
       const intervalId = setInterval(() => {
-        if (looping) {
-          // If looping is enabled, cycle through the items
+        if (currentIndex < itemsArray.length) {
           setCurrentItem(itemsArray[currentIndex]);
-          currentIndex = (currentIndex + 1) % itemsArray.length;
+          currentIndex += 1;
         } else {
-          // If not looping, stop the interval when all items are shown
-          if (currentIndex < itemsArray.length) {
-            setCurrentItem(itemsArray[currentIndex]);
-            currentIndex += 1;
-          } else {
-            clearInterval(intervalId);
-            setCurrentItem(""); // Reset currentItem when done
-            setLooping(false);
-          }
+          clearInterval(intervalId);
+          setCurrentItem("");
+          setLooping(false);
         }
-      }, intervalTime * 1000); // Convert seconds to milliseconds
-
-      // Clear the interval when looping state changes
-      return () => clearInterval(intervalId);
+      }, intervalTime * 1000);
     }
   };
-
-  useEffect(() => {
-    // Reset currentItem when itemList changes
-    setCurrentItem("");
-  }, [itemList]);
 
   return (
     <div className="App">
       <header className="App-header">
         {!looping && (
           <div>
-            <h1>SwitchList</h1>
-            <h5>
-              Enter a list of anything, set the intervals, then start the cycle.
-            </h5>
-            <div>
+            <Typography variant="h1">SwitchList</Typography>
+            <Typography variant="h5" sx={{ marginBottom: "20px" }}>
+              Enter a list of anything, set the intervals, then start the loop.
+            </Typography>
+            <Box
+              sx={{
+                backgroundColor: "transparent",
+                color: "black",
+                fontSize: "1.5rem",
+              }}
+            >
               <TextField
                 id="itemlist"
                 label="Enter list items separated by line"
@@ -85,16 +78,21 @@ function App() {
                 fullWidth
                 value={itemList}
                 onChange={handleChange}
-                style={{
-                  color: "white",
+                InputProps={{
+                  sx: {
+                    lineHeight: "30px",
+                    textarea: { fontSize: "1.5rem" },
+                  },
                 }}
-                InputLabelProps={{
-                  style: { color: "white" },
-                }}
-                InputProps={{ style: { color: "white", border: "green" } }}
               />
-              <Box sx={{ border: "lightblue solid 2px" }}>
-                <Box style={{ margin: "10px" }}>
+              <Box
+                sx={{
+                  border: "rgba(0, 0, 0, 0.23) solid 1px",
+                  borderRadius: "3px",
+                  marginBottom: "10px",
+                }}
+              >
+                <Box sx={{ margin: "20px 0px 15px" }}>
                   <Radio
                     id="loop"
                     name="cycling"
@@ -107,11 +105,12 @@ function App() {
                     name="cycling"
                     checked={selectedRadio === "random"}
                     onChange={handleRadioChange}
+                    sx={{ marginLeft: "20px" }}
                   />
                   <label htmlFor="random">Random</label>
                 </Box>
                 <Box
-                  style={{
+                  sx={{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
@@ -128,28 +127,31 @@ function App() {
                     inputProps={{
                       style: {
                         fontSize: "1.5rem",
-                        background: "white",
-                        padding: 5,
-                        border: "#469  solid 5px",
                       },
                       step: 0.1,
+                      min: 0.1,
                     }}
                   />
                   {` second${intervalTime !== 1 ? "s" : ""}`}
                 </Box>
-                <p>
+                <Box sx={{ margin: "20px 0px 30px" }}>
                   {`Total Time: ${totalTime} second${
                     totalTime === 1 ? "" : "s"
                   }`}
-                </p>
+                </Box>
               </Box>
-            </div>
-            <Button onClick={handleStart} variant="contained" color="primary">
+            </Box>
+            <Button
+              onClick={handleStart}
+              variant="contained"
+              color="primary"
+              size="large"
+            >
               Start!
             </Button>
           </div>
         )}
-        <div id="currentitem">{currentItem}</div>
+        <Box sx={{ fontSize: "3rem" }}>{currentItem}</Box>
       </header>
     </div>
   );
