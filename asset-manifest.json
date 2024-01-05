@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Switchlist/static/css/main.77c6b827.css",
+    "main.js": "/Switchlist/static/js/main.8bb6e839.js",
+    "static/js/787.89676095.chunk.js": "/Switchlist/static/js/787.89676095.chunk.js",
+    "index.html": "/Switchlist/index.html",
+    "main.77c6b827.css.map": "/Switchlist/static/css/main.77c6b827.css.map",
+    "main.8bb6e839.js.map": "/Switchlist/static/js/main.8bb6e839.js.map",
+    "787.89676095.chunk.js.map": "/Switchlist/static/js/787.89676095.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.77c6b827.css",
+    "static/js/main.8bb6e839.js"
+  ]
+}
