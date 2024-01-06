@@ -13,7 +13,7 @@ Try out this project here: https://elderlyc.github.io/Switchlist
 
 ## Getting Started
 
-1. Clone the repository: `git clone https://github.com/your-username/switchlist.git`
+1. Clone the repository: `git clone https://github.com/elderlyc/switchlist.git`
 2. Navigate to the project directory: `cd switchlist`
 3. Install dependencies: `npm install`
 4. Start the app: `npm start`
